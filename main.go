@@ -1,11 +1,7 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"log"
-
-	"github.com/gocolly/colly"
+	"price-comparison/amazon"
 )
 
 type Item struct {
@@ -16,32 +12,34 @@ type Item struct {
 }
 
 func main() {
-	c := colly.NewCollector()
+	// c := colly.NewCollector()
 
-	items := []Item{}
+	// items := []Item{}
 
-	c.OnRequest(func(r *colly.Request) {
-		r.Headers.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
-	})
+	// c.OnRequest(func(r *colly.Request) {
+	// 	r.Headers.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
+	// })
 
-	c.OnHTML("section.detail-main ", func(h *colly.HTMLElement) {
-		i := Item{
-			Link:      h.ChildAttr("a", "href"),
-			Name:      h.ChildText("h1"),
-			Price:     h.ChildText(".price"),
-			ImageLink: h.ChildAttr("img", "src"),
-		}
-		items = append(items, i)
-	})
+	// c.OnHTML("section.detail-main ", func(h *colly.HTMLElement) {
+	// 	i := Item{
+	// 		Link:      h.ChildAttr("a", "href"),
+	// 		Name:      h.ChildText("h1"),
+	// 		Price:     h.ChildText(".price"),
+	// 		ImageLink: h.ChildAttr("img", "src"),
+	// 	}
+	// 	items = append(items, i)
+	// })
 
-	err := c.Visit("https://www.hepsiburada.com/steelseries-arctis-1-wireless-oyuncu-kulakligi-usb-c-wireless-ps4-pc-nintendo-switch-android-uyumlu-pm-HB00000NAMDL")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// err := c.Visit("https://www.hepsiburada.com/steelseries-arctis-1-wireless-oyuncu-kulakligi-usb-c-wireless-ps4-pc-nintendo-switch-android-uyumlu-pm-HB00000NAMDL")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	data, err := json.MarshalIndent(items, " ", "")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(string(data))
+	// data, err := json.MarshalIndent(items, " ", "")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(string(data))
+
+	amazon.AmazonProduct()
 }
