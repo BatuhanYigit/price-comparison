@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"price-comparison/helper"
 	"strings"
 
 	"github.com/gocolly/colly"
@@ -17,37 +18,10 @@ type Product struct {
 	ImageLink string `json:"imagelink"`
 }
 
-type Item struct {
-	Link      string `json:"link"`
-	Name      string `json:"name"`
-	Price     string `json:"price"`
-	ImageLink string `json:"imagelink"`
-}
-
-type Amazon struct {
-	Link      string `json:"link"`
-	Name      string `json:"name"`
-	Price     string `json:"price"`
-	ImageLink string `json:"imagelink"`
-}
-
-type Trendyol struct {
-	Link      string `json:"link"`
-	Name      string `json:"name"`
-	Price     string `json:"price"`
-	ImageLink string `json:"imagelink"`
-}
-
 func AmazonProduct() {
 	c := colly.NewCollector()
 
-	products := []Product{}
-
-	// items := []Item{}
-
-	// amazons := []Amazon{}
-
-	// trendyols := []Trendyol{}
+	products := []helper.Product{}
 
 	//-----------------------------------------Hepsiburada--------------------------------------------\\
 
@@ -58,7 +32,7 @@ func AmazonProduct() {
 	c.OnHTML("section.detail-main ", func(h *colly.HTMLElement) {
 		split := strings.Split(h.ChildText(".price"), "\n")
 		price := strings.TrimSpace(split[0])
-		i := Product{
+		i := helper.Product{
 			Source:    "Hepsiburada",
 			Link:      h.ChildAttr("a", "href"),
 			Name:      h.ChildText("h1"),
@@ -82,7 +56,7 @@ func AmazonProduct() {
 	c.OnHTML("div.a-container ", func(h *colly.HTMLElement) {
 		split := strings.Split(h.ChildText(".a-section"), "TL")
 		price := strings.TrimSpace(split[0])
-		i := Product{
+		i := helper.Product{
 			Source:    "Amazon",
 			Link:      h.ChildAttr("a", "href"),
 			Name:      h.ChildText("h1"),
@@ -106,7 +80,7 @@ func AmazonProduct() {
 	c.OnHTML("div.product-detail-container", func(h *colly.HTMLElement) {
 		split := strings.Split(h.ChildText("span.prc-dsc"), "TL")
 		price := strings.TrimSpace(split[0])
-		i := Product{
+		i := helper.Product{
 			Source:    "Trendyol",
 			Link:      h.ChildAttr("a", "href"),
 			Name:      h.ChildText("h1"),
@@ -121,19 +95,7 @@ func AmazonProduct() {
 		log.Fatal(err)
 	}
 
-	// data, err := json.MarshalIndent(items, " ", "")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println("HepsiBurada Product")
-	// fmt.Println(string(data))
-
-	// data2, err := json.MarshalIndent(amazons, " ", "")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println("Amazon Product")
-	// fmt.Println(string(data2))
+	helper.ExcelWriter(products)
 
 	data, err := json.MarshalIndent(products, " ", "")
 	if err != nil {
