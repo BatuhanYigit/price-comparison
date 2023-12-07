@@ -20,11 +20,10 @@ This project is a simple price comparison tool that tracks and compares product 
    ```bash
    cd price-comparison
 
-
 3. Run the main program:
 
- ```bash
- go run main.go
+   ```bash
+   go run main.go
 
 Configuration
 Modify the main.go file to input the product links for Trendyol, Amazon, and Hepsiburada.
