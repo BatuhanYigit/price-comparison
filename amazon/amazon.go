@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"price-comparison/helper"
 	"strings"
 
@@ -20,6 +21,11 @@ type Product struct {
 
 func AmazonProduct() {
 	c := colly.NewCollector()
+	trendyolPath := os.Getenv("TRENDYOL")
+	amazonPath := os.Getenv("AMAZON")
+	hepsiburadaPath := os.Getenv("HEPSIBURADA")
+
+	fmt.Println("path : ", trendyolPath)
 
 	products := []helper.Product{}
 
@@ -34,15 +40,31 @@ func AmazonProduct() {
 		price := strings.TrimSpace(split[0])
 		i := helper.Product{
 			Source:    "Hepsiburada",
-			Link:      h.ChildAttr("a", "href"),
+			Link:      hepsiburadaPath,
 			Name:      h.ChildText("h1"),
 			Price:     price,
 			ImageLink: h.ChildAttr("img", "src"),
 		}
-		products = append(products, i)
+		oldProduct, _ := helper.GetBySourcePrice("Hepsiburada")
+		if oldProduct.Price == price {
+			fmt.Println("The price has not changed so it was not saved to csv.")
+		} else {
+			if oldProduct.Price > price {
+				fmt.Println("Price discount")
+				products = append(products, i)
+				fmt.Println("Web Site : ", i.Source)
+
+			} else if oldProduct.Price < price {
+				fmt.Println("Price increase")
+				products = append(products, i)
+				fmt.Println("Web Site : ", i.Source)
+
+			}
+
+		}
 	})
 
-	err := c.Visit("https://www.hepsiburada.com/steelseries-arctis-1-wireless-oyuncu-kulakligi-usb-c-wireless-ps4-pc-nintendo-switch-android-uyumlu-pm-HB00000NAMDL")
+	err := c.Visit(hepsiburadaPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,15 +80,32 @@ func AmazonProduct() {
 		price := strings.TrimSpace(split[0])
 		i := helper.Product{
 			Source:    "Amazon",
-			Link:      h.ChildAttr("a", "href"),
+			Link:      amazonPath,
 			Name:      h.ChildText("h1"),
 			Price:     price,
 			ImageLink: h.ChildAttr("img", "src"),
 		}
-		products = append(products, i)
+		oldProduct, _ := helper.GetBySourcePrice("Amazon")
+		if oldProduct.Price == price {
+			fmt.Println("The price has not changed so it was not saved to csv.")
+		} else {
+			if oldProduct.Price > price {
+				fmt.Println("Price discount")
+				products = append(products, i)
+				fmt.Println("Web Site : ", i.Source)
+
+			} else if oldProduct.Price < price {
+				fmt.Println("Price increase")
+				products = append(products, i)
+				fmt.Println("Web Site : ", i.Source)
+
+			}
+
+		}
+
 	})
 
-	err = c.Visit("https://www.amazon.com.tr/SteelSeries-Arctis-Wireless-Gaming-Kulakl%C4%B1k/dp/B09GW7NHL4/ref=sr_1_1?crid=13YG3B9ISWB9N&keywords=steelseries+arctis+7&qid=1701335813&sprefix=steel+%2Caps%2C161&sr=8-1")
+	err = c.Visit(amazonPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -82,20 +121,42 @@ func AmazonProduct() {
 		price := strings.TrimSpace(split[0])
 		i := helper.Product{
 			Source:    "Trendyol",
-			Link:      h.ChildAttr("a", "href"),
+			Link:      trendyolPath,
 			Name:      h.ChildText("h1"),
 			Price:     price,
 			ImageLink: h.ChildAttr("img", "src"),
 		}
-		products = append(products, i)
+		oldProduct, _ := helper.GetBySourcePrice("Trendyol")
+		if oldProduct.Price == price {
+			fmt.Println("The price has not changed so it was not saved to csv.")
+		} else {
+			if oldProduct.Price > price {
+				fmt.Println("Price discount")
+				products = append(products, i)
+				fmt.Println("Web Site : ", i.Source)
+
+			} else if oldProduct.Price < price {
+				fmt.Println("Price increase")
+				products = append(products, i)
+				fmt.Println("Web Site : ", i.Source)
+
+			}
+
+		}
+
 	})
 
-	err = c.Visit("https://www.trendyol.com/steelseries/arctis-1-wireless-oyuncu-kulaklik-pc-ps4-ps5-xbox-nintendo-switch-ve-android-p-31622422?boutiqueId=61&merchantId=220053")
+	err = c.Visit(trendyolPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	helper.ExcelWriter(products)
+	if len(products) == 0 {
+		fmt.Println("Price not changed")
+	} else {
+		helper.ExcelWriter(products)
+
+	}
 
 	data, err := json.MarshalIndent(products, " ", "")
 	if err != nil {

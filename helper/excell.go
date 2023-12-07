@@ -2,8 +2,8 @@ package helper
 
 import (
 	"encoding/csv"
+	"errors"
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -15,15 +15,32 @@ type Product struct {
 	ImageLink string `json:"imagelink"`
 }
 
-func ExcelWriter(products []Product) {
-	file, err := os.Create("./products.csv")
-	if err != nil {
-		log.Fatalln("Failed create csv ", err)
+func OpenCreateCsv(filePath string, headers []string) (*os.File, *csv.Writer, error) {
+	var file *os.File
+	var writer *csv.Writer
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+
+		file, err = os.Create(filePath)
+		if err != nil {
+			return nil, nil, err
+		}
+		writer = csv.NewWriter(file)
+		writer.Write(headers)
+	} else {
+
+		file, err = os.OpenFile(filePath, os.O_WRONLY|os.O_APPEND, 0644)
+		if err != nil {
+			return nil, nil, err
+		}
+		writer = csv.NewWriter(file)
 	}
-	defer file.Close()
 
-	writer := csv.NewWriter(file)
+	return file, writer, nil
+}
 
+func ExcelWriter(products []Product) {
+	filePath := "./products.csv"
 	headers := []string{
 		"Source",
 		"Link",
@@ -31,7 +48,11 @@ func ExcelWriter(products []Product) {
 		"Price",
 		"ImageLink",
 	}
-	writer.Write(headers)
+	file, writer, err := OpenCreateCsv(filePath, headers)
+	if err != nil {
+		fmt.Println("Error open csv ", err)
+	}
+	defer file.Close()
 
 	for _, product := range products {
 		record := []string{
@@ -46,7 +67,8 @@ func ExcelWriter(products []Product) {
 
 	}
 
-	defer writer.Flush()
+	writer.Flush()
+
 }
 
 func GetAll() {
@@ -72,7 +94,11 @@ func GetAll() {
 
 }
 
-func GetBySource(products []Product, source string) []Product {
+func GetBySource(source string) []Product {
+	products, err := ReadCSV()
+	if err != nil {
+		fmt.Println("CSV okuma hatası:", err)
+	}
 	var filterProducts []Product
 
 	for _, product := range products {
@@ -82,6 +108,26 @@ func GetBySource(products []Product, source string) []Product {
 	}
 
 	return filterProducts
+}
+
+func GetBySourcePrice(source string) (Product, error) {
+	products, err := ReadCSV()
+	if err != nil {
+		fmt.Println("Read error", err)
+	}
+	var foundProduct Product
+
+	for _, product := range products {
+		if product.Source == source {
+			foundProduct = product
+		}
+	}
+
+	if foundProduct == (Product{}) {
+		return Product{}, errors.New("Product not found")
+	}
+
+	return foundProduct, nil
 }
 
 func ReadCSV() ([]Product, error) {
