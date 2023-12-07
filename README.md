@@ -29,7 +29,7 @@ This project is a simple price comparison tool that tracks and compares product 
 
 Modify the main.go file to input the product links for Trendyol, Amazon, and Hepsiburada.
 ```bash
-   func main() {
+func main() {
     fmt.Print("Write Trendyol product link : ")
     trendyolPath, _ := bufio.NewReader(os.Stdin).ReadString('\n')
 
