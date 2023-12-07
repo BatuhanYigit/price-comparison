@@ -29,29 +29,7 @@ Modify the main.go file to input the product links for Trendyol, Amazon, and Hep
 
 go
 Copy code
-// main.go
 
-// ...
-
-func main() {
-    fmt.Print("Write Trendyol product link : ")
-    trendyolPath, _ := bufio.NewReader(os.Stdin).ReadString('\n')
-
-    fmt.Print("Write Amazon product link : ")
-    amazonPath, _ := bufio.NewReader(os.Stdin).ReadString('\n')
-
-    fmt.Print("Write Hepsiburada product link : ")
-    hepsiburadaPath, _ := bufio.NewReader(os.Stdin).ReadString('\n')
-
-    //Clear strings \n
-    trendyolPath = strings.TrimSpace(trendyolPath)
-    amazonPath = strings.TrimSpace(amazonPath)
-    hepsiburadaPath = strings.TrimSpace(hepsiburadaPath)
-
-    cronJobs(trendyolPath, amazonPath, hepsiburadaPath)
-}
-
-// ...
 Dependencies
 Go-Cron: Library used for scheduling tasks.
 Colly: Scraping framework used for extracting data from websites.
