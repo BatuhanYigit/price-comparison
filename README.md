@@ -1,5 +1,3 @@
-markdown
-Copy code
 # Price Comparison Project
 
 This project is a simple price comparison tool that tracks and compares product prices on different e-commerce websites such as Trendyol, Amazon, and Hepsiburada. It utilizes Go programming language and the Go-Cron library for scheduling.
