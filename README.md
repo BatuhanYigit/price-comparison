@@ -31,6 +31,8 @@ go
 Copy code
 
 ## Dependencies
+
+
 Go-Cron: Library used for scheduling tasks.
 Colly: Scraping framework used for extracting data from websites.
 Usage
@@ -41,6 +43,7 @@ License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
+
 Go: The programming language used for this project.
 Colly: The scraping framework used in the project.
 Go-Cron: The scheduling library used for periodic tasks.
