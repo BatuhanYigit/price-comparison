@@ -14,16 +14,15 @@ This project is a simple price comparison tool that tracks and compares product 
 
    ```bash
    git clone https://github.com/your-username/price-comparison.git
-Navigate to the project directory:
+2. Navigate to the project directory:
 
-bash
-Copy code
-cd price-comparison
-Run the main program:
+ ```bash
+   cd price-comparison
+3. Run the main program:
 
-bash
-Copy code
-go run main.go
+ ```bash
+   go run main.go
+
 Configuration
 Modify the main.go file to input the product links for Trendyol, Amazon, and Hepsiburada.
 
