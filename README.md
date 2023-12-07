@@ -14,10 +14,13 @@ This project is a simple price comparison tool that tracks and compares product 
 
    ```bash
    git clone https://github.com/your-username/price-comparison.git
+   
 2. Navigate to the project directory:
 
- ```bash
- cd price-comparison
+   ```bash
+   cd price-comparison
+
+
 3. Run the main program:
 
  ```bash
