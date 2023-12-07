@@ -18,6 +18,8 @@ type Product struct {
 	ImageLink string `json:"imagelink"`
 }
 
+//TODO: change go file name or split functions
+
 func AmazonProduct(trendyolPath string, amazonPath string, hepsiburadaPath string) {
 	c := colly.NewCollector()
 
