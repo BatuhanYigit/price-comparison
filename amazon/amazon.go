@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"price-comparison/helper"
 	"strings"
 
@@ -19,11 +18,8 @@ type Product struct {
 	ImageLink string `json:"imagelink"`
 }
 
-func AmazonProduct() {
+func AmazonProduct(trendyolPath string, amazonPath string, hepsiburadaPath string) {
 	c := colly.NewCollector()
-	trendyolPath := os.Getenv("TRENDYOL")
-	amazonPath := os.Getenv("AMAZON")
-	hepsiburadaPath := os.Getenv("HEPSIBURADA")
 
 	fmt.Println("path : ", trendyolPath)
 
