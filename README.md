@@ -46,7 +46,7 @@ func main() {
 
     cronJobs(trendyolPath, amazonPath, hepsiburadaPath)
 }
-
+```
 
 ## Dependencies
 
