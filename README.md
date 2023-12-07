@@ -13,7 +13,7 @@ This project is a simple price comparison tool that tracks and compares product 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/price-comparison.git
+   git clone https://github.com/BatuhanYigit/price-comparison.git
    
 2. Navigate to the project directory:
 
