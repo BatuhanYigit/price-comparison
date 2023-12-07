@@ -30,7 +30,7 @@ Modify the main.go file to input the product links for Trendyol, Amazon, and Hep
 go
 Copy code
 
-Dependencies
+## Dependencies
 Go-Cron: Library used for scheduling tasks.
 Colly: Scraping framework used for extracting data from websites.
 Usage
@@ -40,7 +40,7 @@ Price changes will be logged to a CSV file.
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Acknowledgments
+## Acknowledgments
 Go: The programming language used for this project.
 Colly: The scraping framework used in the project.
 Go-Cron: The scheduling library used for periodic tasks.
